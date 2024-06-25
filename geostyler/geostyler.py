@@ -204,17 +204,22 @@ class GeoStyler:
 
                 # https://api.qgis.org/api/classQgsMapLayer.html#ae44dba60c5814bec4a8180753d7faec4
                 active_layer.saveNamedStyle(temp_file_name, QgsMapLayer.StyleCategory.Symbology | QgsMapLayer.StyleCategory.Labeling)
-
+                # active_layer.saveNamedStyle(temp_file_name, QgsMapLayer.StyleCategory.Symbology)
+                # remove any existing file so we know if it was recreated
+                if os.path.exists(output_file_path):
+                    os.remove(output_file_path)
                 result = run_geostyler(temp_file_name, output_file_path, output_format)
-
+                # for checking the output
+                # import shutil
+                # shutil.copyfile(temp_file_name, r"D:\Temp\test.qml")
             # Check the return code
-            if result.returncode == 0:
-                # we can get a 0 return code but still have errors
+            if result.returncode == 0 or os.path.exists(output_file_path) is False:
+                # we can get a 0 return code but still have errors, so check the output file was created
                 message = f"Style exported to {output_file_path} for layer {layer_name}"
                 self.iface.messageBar().pushMessage(message, level=Qgis.Info)
             else:
                 message = f"Failed to export to {output_file_path} with code {result.returncode}. Errors {result.stderr}"
-                self.iface.messageBar().pushMessage(message, level=Qgis.Warning)                
+                self.iface.messageBar().pushMessage(message, level=Qgis.Warning)
 
 
     def on_file_changed(self, file_path):

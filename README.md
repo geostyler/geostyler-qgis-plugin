@@ -4,9 +4,11 @@ A QGIS Plugin for exporting layer styles to different formats.
 
 **Experimental**
 
-Tested with QGIS 3.24. 
+Tested with QGIS 3.34. 
 
-**Warning**: In recent versions of QGIS (e.g. 3.34) the style exports are no longer working with the [geostyler-qgis-parser](https://github.com/geostyler/geostyler-qgis-parser). This may requires to the QGIS parser - see <https://github.com/geostyler/geostyler-qgis-parser/issues/455>. 
+**Warning**: In previous versions of QGIS (e.g. 3.24) the XML used to store
+styles in QGIS projects is in a different format that is not compatible with
+newer versions of the [geostyler-qgis-parser](https://github.com/geostyler/geostyler-qgis-parser) (see this [issue](https://github.com/geostyler/geostyler-qgis-parser/issues/455)). 
 
 ## Installation
 
@@ -25,7 +27,7 @@ Next we create a symbolic link to make the cloned GitHub repository appear in th
 
 Windows Command Prompt:
 
-```
+```bat
 mklink /D "%APPDATA%\QGIS\QGIS3\profiles\default\python\plugins\geostyler" "C:\GitHub\geostyler-qgis-plugin"
 ```
 
@@ -42,7 +44,7 @@ New-Item -ItemType SymbolicLink -Path $LinkPath -Target $SourcePath
 
 Bash (untested):
 
-```
+```bash
 ln -s /path/to/source /home/username/.local/share/QGIS/QGIS3/profiles/default/python/plugins/geostyler
 ```
 
@@ -53,14 +55,17 @@ You should now be able to open Plugins > Manage and Install Plugins and find the
 The plugin relies on [geostyler-cli](https://github.com/geostyler/geostyler-cli) - GeoStyler's command-line tool.
 This needs to be available on the system path, or placed in the plugin folder.
 
-Binary releases are available on the [release pages](https://github.com/geostyler/geostyler-cli/releases), for example [4.0.0](https://github.com/geostyler/geostyler-cli/releases/tag/v4.0.0).
+Binary releases are available on the [release pages](https://github.com/geostyler/geostyler-cli/releases), for example [4.3.1](https://github.com/geostyler/geostyler-cli/releases/tag/v4.3.1).
+
+**Note** the minimum required version of GeoStyler to work with the plugin
+is **4.3.1**.
 
 Example script in PowerShell:
 
 ```ps
-$zipUrl = "https://github.com/geostyler/geostyler-cli/releases/download/v4.0.0/geostyler-cli-win.exe.zip"
+$zipUrl = "https://github.com/geostyler/geostyler-cli/releases/download/v4.3.1/geostyler-win.exe.zip"
 $destinationPath = "C:\GitHub\geostyler-qgis-plugin\geostyler"
-$zipFile = "$destinationPath\geostyler-cli-win.exe.zip"
+$zipFile = "$destinationPath\geostyler-win.exe.zip"
 
 Write-Host "Downloading ZIP file..."
 Invoke-WebRequest -Uri $zipUrl -OutFile $zipFile
@@ -74,8 +79,8 @@ Check that the program runs successfully on the command line:
 
 ```
 cd C:\GitHub\geostyler-qgis-plugin\geostyler
-./geostyler-cli --version
-# v4.0.0
+./geostyler --version
+# v4.3.1
 ```
 Now start QGIS and when right-clicking on vector or raster layers you should see the GeoStyler option in the context menu.
 

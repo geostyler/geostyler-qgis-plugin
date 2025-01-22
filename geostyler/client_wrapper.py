@@ -18,10 +18,10 @@ def run_geostyler(input_file, output_file, output_format):
     update_environment_path()
 
     # Define the command and parameters
-    # command = ["geostyler-cli", "--version"]
+    # command = ["geostyler", "--version"]
 
     command = [
-        "geostyler-cli",
+        "geostyler",
         input_file,
         "--source",
         "qgis",
